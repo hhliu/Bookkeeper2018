@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Bookkeeper</string>
+    <string name="textView_click">textView被按了一下</string>
+    <string name="button_click">button被按了一下</string>
+    <string name="lb_button">按我</string>
+    <string name="hello">Hello World</string>
 </resources>
