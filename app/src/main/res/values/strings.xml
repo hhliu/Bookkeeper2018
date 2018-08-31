@@ -4,4 +4,23 @@
     <string name="button_click">button被按了一下</string>
     <string name="lb_button">按我</string>
     <string name="hello">Hello World</string>
+
+    <string name="lb_addAccountBanner">新增帳目</string>
+    <string name="lb_save">儲存</string>
+    <string name="lb_priceHint">price</string>
+    <string name="lb_categroyHint">收入/支出 分類選擇</string>
+    <string name="lb_categroy">分類</string>
+    <string name="lb_item">品名</string>
+    <string name="lb_payment">付款方式</string>
+    <string name="tx_payment">現金</string>
+    <string name="lb_date">日期</string>
+    <string name="lb_note">備註</string>
+
+
+    <string name="iv_desc">icon圖示</string>
+    <string name="lb_save2">Save</string>
+    <string name="et_hint">金額輸入</string>
+
+
+    <string name="data_saved">資料已儲存</string>
 </resources>
