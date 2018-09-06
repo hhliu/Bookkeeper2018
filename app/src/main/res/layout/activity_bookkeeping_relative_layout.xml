@@ -1,0 +1,296 @@
+<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mainpage"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/ic_moneycare"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:shadowColor="@color/white"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:text="@string/lb_addAccountBanner"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/sButton"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/dr_bt_background"
+            android:shadowColor="@color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:text="@string/lb_save"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/bannerDark"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relativeLayout2"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/aCamera"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@color/tabTransparent"
+                android:contentDescription="@string/iv_desc"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bt_camera" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:layout_weight="2"
+            android:textSize="48sp"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center"
+            android:hint="@string/lb_priceHint" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tableRow1"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:paddingRight="15dp"
+            android:text="@string/lb_categroy"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <!--<TextView
+            android:id="@+id/aCategory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/bg_edittext"
+            android:focusable="true"
+            android:hint="@string/lb_categroyHint"
+            android:shadowColor="@color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center" />-->
+        <Spinner
+            android:id="@+id/planets_spinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/bg_edittext" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tableRow2"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:paddingRight="15dp"
+            android:text="@string/lb_item"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/aItem"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:background="@drawable/bg_edittext"
+            android:focusable="true"
+            android:gravity="center"
+            android:imeOptions="actionDone|flagNoEnterAction"
+            android:inputType="text"
+            android:lines="1"
+            android:shadowColor="@color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageButton
+            android:id="@+id/aPlus"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="0.5"
+            android:background="@color/tabTransparent"
+            android:contentDescription="@string/iv_desc"
+            android:scaleType="fitCenter"
+            android:src="@drawable/dr_bt_add_xml"
+            android:visibility="visible" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tableRow3"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:paddingRight="15dp"
+            android:text="@string/lb_payment"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/aPayment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/bg_edittext"
+            android:focusable="true"
+            android:gravity="center"
+            android:shadowColor="@color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tableRow4"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:paddingRight="15dp"
+            android:text="@string/lb_date"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/aDate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.25"
+            android:background="@drawable/bg_edittext"
+            android:focusable="true"
+            android:gravity="center"
+            android:shadowColor="@color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.05" />
+
+        <TextView
+            android:id="@+id/aTime"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:background="@drawable/bg_edittext"
+            android:focusable="true"
+            android:gravity="center"
+            android:shadowColor="@color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow6"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tableRow5"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:paddingRight="15dp"
+            android:text="@string/lb_note"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/aNote"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:background="@drawable/bg_edittext"
+            android:focusable="true"
+            android:gravity="left|top"
+            android:imeOptions="actionDone|flagNoEnterAction"
+            android:inputType="textMultiLine"
+            android:shadowColor="@color/white"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </TableRow>
+
+</RelativeLayout>
