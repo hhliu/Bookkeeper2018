@@ -13,42 +13,42 @@ public class Bookkeeping extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookkeeping_constraint_layout);
 
-        Log.i(TAG, TAG + ": enter onCreate()");
+        Log.i(TAG, "enter onCreate()");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG, TAG + ": enter onStart()");
+        Log.i(TAG, "enter onStart()");
     }
 
     @Override
     protected void onStop() {
-        Log.i(TAG, TAG + ": enter onStop()");
+        Log.i(TAG, "enter onStop()");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, TAG + ": enter onDestroy()");
+        Log.i(TAG, "enter onDestroy()");
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        Log.i(TAG, TAG + ": enter onPause()");
+        Log.i(TAG, "enter onPause()");
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG, TAG + ": enter onResume()");
+        Log.i(TAG, "enter onResume()");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i(TAG, TAG + ": enter onRestart()");
+        Log.i(TAG, "enter onRestart()");
     }
 }
