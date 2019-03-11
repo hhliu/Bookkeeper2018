@@ -9,17 +9,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait"> <!-- 鎖定螢幕方向 -->
-            <!--android:configChanges= "orientation|screenSize"     限制在螢幕轉向時重新啟動系統-->
+            <!-- android:configChanges= "orientation|screenSize"     限制在螢幕轉向時重新啟動系統 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Bookkeeping"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Bookkeeping"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CuteDog">
+        </activity>
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

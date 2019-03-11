@@ -2,11 +2,14 @@ package cycu.nclab.moocs.bookkeeper2018;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -14,11 +17,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class Bookkeeping extends AppCompatActivity implements View.OnClickListener{
+public class Bookkeeping extends AppCompatActivity implements View.OnClickListener, DatePickerFragment.OnFragmentInteractionListener{
 
     final String TAG = this.getClass().getSimpleName();
 
     TextView mDate, mTime;
+    Spinner mCategory;
 
     SimpleDateFormat dbFormat = new java.text.SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
@@ -75,6 +79,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
     private void uiInit() {
         mDate = this.findViewById(R.id.textView7);
         mTime = this.findViewById(R.id.textView8);
+        mCategory = this.findViewById(R.id.spinner);
     }
 
     private void setListener() {
@@ -91,6 +96,13 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
         // 顯示目前時間
         mDate.setText(df_date.format(c.getTime()));
         mTime.setText(df_time_am.format(c.getTime()));
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.category, R.layout.my_simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(R.layout.my_simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        mCategory.setAdapter(adapter);
 
     }
 
@@ -124,38 +136,30 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.textView7:
                 // on Date
-                new DatePickerDialog(this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-                                c.set(Calendar.YEAR, year);
-                                c.set(Calendar.MONTH, monthOfYear);
-                                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                // 將日期寫入日期欄位
-//								mDate.setText(new StringBuilder().append(year)
-//										.append("/").append(monthOfYear + 1)
-//										.append("/").append(dayOfMonth));
-//                              上面是用字串組成的作法， 下面是直接call SimpleDateFormat
-                                mDate.setText(df_date.format(c.getTime()));
-                            }
-                        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH),
-                        c.get(Calendar.DAY_OF_MONTH)).show();
+                DialogFragment dateFragment = DatePickerFragment.newInstance(c);
+                dateFragment.show(getSupportFragmentManager(), "datePicker");
+
+
                 break;
             case R.id.textView8:
                 // on Time
-                new TimePickerDialog(this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-                                c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                c.set(Calendar.MINUTE, minute);
-                                mTime.setText(df_time_am.format(c.getTime()));
-                            }
-                        }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
-                        false).show();
+                DialogFragment timeFragment = TimePickerFragment.newInstance(c);
+                timeFragment.show(getSupportFragmentManager(), "datePicker");
+                break;
+            case R.id.spinner:
+                Log.d(TAG, "in spinner click");
+//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                        R.array.category, android.R.layout.simple_spinner_item);
+//// Specify the layout to use when the list of choices appears
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//// Apply the adapter to the spinner
+//                mCategory.setAdapter(adapter);
                 break;
         }
+    }
+
+    @Override
+    public void onDateSet(Calendar c) {
+        mDate.setText(df_date.format(this.c.getTime()));
     }
 }
