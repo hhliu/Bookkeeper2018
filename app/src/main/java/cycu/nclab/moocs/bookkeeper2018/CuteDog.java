@@ -1,12 +1,12 @@
 package cycu.nclab.moocs.bookkeeper2018;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CuteDog extends AppCompatActivity {
 

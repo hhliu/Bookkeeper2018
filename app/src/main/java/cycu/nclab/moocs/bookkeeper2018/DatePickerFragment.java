@@ -3,13 +3,11 @@ package cycu.nclab.moocs.bookkeeper2018;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.widget.DatePicker;
 
-import java.text.ParseException;
+import androidx.fragment.app.DialogFragment;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -72,7 +70,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 //            }
 
             @Override
-            public void onDateChanged(@android.support.annotation.NonNull DatePicker view, int year, int month, int dayOfMonth) {
+            public void onDateChanged(@androidx.annotation.NonNull DatePicker view, int year, int month, int dayOfMonth) {
                 super.onDateChanged(view, year, month, dayOfMonth);
                 onDateSet(view, year, month, dayOfMonth);
                 this.dismiss();

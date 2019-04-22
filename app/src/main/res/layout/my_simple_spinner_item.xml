@@ -25,4 +25,5 @@
     android:background="@drawable/bg_edittext"
     android:ellipsize="marquee"
     android:singleLine="true"
-    android:textAlignment="inherit" />
+    android:textAlignment="inherit"
+    android:textColor="@color/colorAccent" />
