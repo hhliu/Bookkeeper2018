@@ -17,7 +17,7 @@ import java.util.Locale;
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 //public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnClickListener{
 
-    private OnFragmentInteractionListener mListener;
+    private OnDialogDoneListener mListener;
 
     private static final String ARG_PARAM1 = "param1";
 
@@ -82,12 +82,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
-
+        c.set(year, month, day);
+        String result = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS",
+                Locale.getDefault()).format(c.getTime());
         if (mListener != null) {
-            mListener.onDateSet(c);
+            mListener.onDialogDone(getTag(), 0, result);;
         }
     }
 
@@ -103,11 +102,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnDialogDoneListener) {
+            mListener = (OnDialogDoneListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnDialogDoneListener");
         }
     }
 //
@@ -133,8 +132,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 //     * "http://developer.android.com/training/basics/fragments/communicating.html"
 //     * >Communicating with Other Fragments</a> for more information.
 //     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onDateSet(Calendar c);
-    }
+//    public interface OnFragmentInteractionListener {
+//        // TODO: Update argument type and name
+//        void onDateSet(Calendar c);
+//    }
 }

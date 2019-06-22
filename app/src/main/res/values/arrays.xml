@@ -8,4 +8,22 @@
         <item >育</item>
         <item >樂</item>
     </string-array>
+
+    <string-array name="Default_ExpenseItems">
+        <item>早餐,午餐,晚餐,雜貨,飲料,零食,下午茶,其他</item>
+        <item>上衣,褲子,夾克,其他</item>
+        <item>租金,電費,水費,瓦斯,網路,其他</item>
+        <item>加油,火車,公車,捷運,計程車,高鐵,停車費,其他</item>
+        <item>雜誌,書籍,DVD,其他</item>
+        <item>電影,唱歌,其他</item>
+    </string-array>
+
+
+    <string-array name="Default_PaymentMethods">
+        <item>現金</item>
+        <item>信用卡</item>
+        <item>禮卷</item>
+        <item>轉帳</item>
+        <item>支票</item>
+    </string-array>
 </resources>

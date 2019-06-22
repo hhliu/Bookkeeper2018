@@ -23,13 +23,14 @@ import android.widget.TimePicker;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
     final String TAG = this.getClass().getSimpleName();
 
-    private OnTimePickerFragmentListener mListener;
+    private OnDialogDoneListener mListener;
     private static final String ARG_PARAM1 = "param1";
 
     Calendar c;
@@ -68,8 +69,10 @@ public class TimePickerFragment extends DialogFragment
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
 
+        String result = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS",
+                Locale.getDefault()).format(c.getTime());
         if (mListener != null) {
-            mListener.onTimeSet(c);
+            mListener.onDialogDone(getTag(), 0, result);;
         }
     }
 
@@ -88,19 +91,15 @@ public class TimePickerFragment extends DialogFragment
     }
 
 
-    public interface OnTimePickerFragmentListener {
-        // TODO: Update argument type and name
-        void onTimeSet(Calendar c);
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnTimePickerFragmentListener) {
-            mListener = (OnTimePickerFragmentListener) context;
+        if (context instanceof OnDialogDoneListener) {
+            mListener = (OnDialogDoneListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnTimePickerFragmentListener");
+                    + " must implement OnDialogDoneListener");
         }
     }
 

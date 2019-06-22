@@ -1,25 +1,33 @@
 package cycu.nclab.moocs.bookkeeper2018;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class Bookkeeping extends AppCompatActivity implements View.OnClickListener, DatePickerFragment.OnFragmentInteractionListener{
+public class Bookkeeping extends AppCompatActivity implements View.OnClickListener, OnDialogDoneListener {
 
     final String TAG = this.getClass().getSimpleName();
 
     TextView mDate, mTime;
-    Spinner mCategory;
+    Spinner mCategory, mPayment, mItemAdd;
+    String[] expenseItems, items;
+    EditText mPrice, mItem, mMemo;
+    Button save;
 
     SimpleDateFormat dbFormat = new java.text.SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
@@ -33,6 +41,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
     /*用來顯示在手機畫面的時間格式*/
 
     Calendar c;
+    DB db = new DB(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +79,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
     protected void onStop() {
         Log.i(TAG, "enter onStop()");
         releaseListener();  // 解除監聽器
+
         super.onStop();
     }
 
@@ -77,16 +87,43 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
         mDate = this.findViewById(R.id.textView7);
         mTime = this.findViewById(R.id.textView8);
         mCategory = this.findViewById(R.id.spinner);
+        mItemAdd = this.findViewById(R.id.spinner2);
+        mPayment = this.findViewById(R.id.spinner3);
+        mPrice = this.findViewById(R.id.editText3);
+        mItem = this.findViewById(R.id.editText4);
+        mMemo = this.findViewById(R.id.editText5);
+        save = findViewById(R.id.button2);
+
+        expenseItems = getResources()
+                .getStringArray(R.array.Default_ExpenseItems);
+//        for (int i = 0; i < expenseItems.length; ++i) {
+//
+//            String[] items = expenseItems[i].split(",");
+//            for (int j = 0; j < items.length; ++j) {
+//                mContent = new ContentValues();
+//                mContent.put(KEY_CLASS, 1); // 細項
+//                mContent.put(KEY_CATEGORY, expenseCategories[i]);
+//                mContent.put(KEY_ITEM, items[j]);
+//                mContent.put(KEY_ORDER, (j + 1) * 10);
+//                db.insertOrThrow(table, null, mContent);
+//            }
+//        }
     }
 
     private void setListener() {
         mDate.setOnClickListener(this);
         mTime.setOnClickListener(this);
+        save.setOnClickListener(this);
+        mCategory.setOnItemSelectedListener(categoryItems);
+        mItemAdd.setOnItemSelectedListener(setItems);
     }
 
     private void releaseListener() {
         mDate.setOnClickListener(null);
         mTime.setOnClickListener(null);
+        save.setOnClickListener(null);
+        mCategory.setOnItemSelectedListener(null);
+        mItemAdd.setOnItemSelectedListener(null);
     }
 
     private void initVarable() {
@@ -95,13 +132,70 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
         mTime.setText(df_time_am.format(c.getTime()));
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.category, R.layout.my_simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.my_simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+                R.array.category, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
         mCategory.setAdapter(adapter);
 
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                R.array.Default_PaymentMethods, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mPayment.setAdapter(adapter1);
+
+        items = expenseItems[0].split(",");
+        mItem.setText(items[0]);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter(this, R.layout.simple_spinner_item, items);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mItemAdd.setAdapter(adapter2);
+
+
+        String cmd =
+                "INSERT INTO " + DB.TABLE + " ("
+                        + DB.KEY_MONEY + ", " + DB.KEY_CATEGORY + ") "
+                        + "VALUES" + " (100, '食');";
+
+        Log.d(TAG, cmd);
     }
+
+//    private AdapterView.setOnItemSelectedListener categoryItems = new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            items = expenseItems[position].split(",");
+//            ArrayAdapter<String> adapter2 = new ArrayAdapter(getApplicationContext(), R.layout.simple_spinner_item, items);
+//            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//            mItemAdd.setAdapter(adapter2);
+//        }
+//    };
+
+    private AdapterView.OnItemSelectedListener categoryItems = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            items = expenseItems[position].split(",");
+            ArrayAdapter<String> adapter2 = new ArrayAdapter(getApplicationContext(), R.layout.simple_spinner_item, items);
+            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mItemAdd.setAdapter(adapter2);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener setItems = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mItem.setText(parent.getSelectedItem().toString());
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
 
 
     @Override
@@ -141,7 +235,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
             case R.id.textView8:
                 // on Time
                 DialogFragment timeFragment = TimePickerFragment.newInstance(c);
-                timeFragment.show(getSupportFragmentManager(), "datePicker");
+                timeFragment.show(getSupportFragmentManager(), "timePicker");
                 break;
             case R.id.spinner:
                 Log.d(TAG, "in spinner click");
@@ -155,8 +249,66 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+//    @Override
+//    public void onDateSet(Calendar c) {
+//        mDate.setText(df_date.format(this.c.getTime()));
+//    }
+
+
+    ContentValues oldOne;
+
+    private boolean saveItem() {
+
+        ContentValues itemValue = new ContentValues();
+
+        // 1. 金額
+        String tmp = mPrice.getText().toString();
+        if (tmp == null || "".equals(tmp))
+            return false;
+        else {
+            // 這裡沒有做輸入檢查
+            itemValue.put(DB.KEY_MONEY, Double.valueOf(tmp));
+        }
+
+        // 2. 其他，沒填就是空白
+        itemValue.put(DB.KEY_CATEGORY, mCategory.getSelectedItem().toString());
+        itemValue.put(DB.KEY_ITEM, mItem.getText().toString().trim());
+        itemValue.put(DB.KEY_PAYSTYLE, mPayment.getSelectedItem().toString());
+        itemValue.put(DB.KEY_MEMO, mMemo.getText().toString());
+        itemValue.put(DB.KEY_DATE, dbFormat.format(c.getTime()));
+
+        // 3. 照片縮圖
+
+        if (oldOne == null || oldOne.equals(itemValue))
+            return false;
+        else {
+            oldOne = itemValue;
+            db.insert(itemValue);
+        }
+
+        return true;
+    }
+
     @Override
-    public void onDateSet(Calendar c) {
-        mDate.setText(df_date.format(this.c.getTime()));
+    public void onDialogDone(String tag, int choice, CharSequence message) {
+        if ("datePicker".equals(tag)) {
+            if (message != null && !"".equals(message)) {
+                try {
+                    c.setTime(dbFormat.parse((String) message));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                mDate.setText(df_date.format(c.getTime()));
+            }
+        } else if ("timePicker".equals(tag)) {
+            if (message != null && !"".equals(message)) {
+                try {
+                    c.setTime(dbFormat.parse((String) message));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                mTime.setText(df_time_am.format(c.getTime()));
+            }
+        }
     }
 }
