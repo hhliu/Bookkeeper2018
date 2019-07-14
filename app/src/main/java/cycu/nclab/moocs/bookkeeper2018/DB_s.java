@@ -77,6 +77,7 @@ public class DB_s {
 	private static DB_s instance;
 
 	public static DB_s getInstance(Context c) {
+        LOCK = new Object();
 		synchronized (LOCK) {
 			if (instance == null )
 				instance = new DB_s(c);
@@ -87,7 +88,7 @@ public class DB_s {
 	private DB_s(Context context) {
 		dbHelper = new DbHelper(context);
 		this.context = context;
-		LOCK = new Object();
+
 		Log.d(TAG, "Initialized database in Constructor of DB");
 	}
 
@@ -180,4 +181,9 @@ public class DB_s {
 		}
 	}
 
+	public void ExecSQL(String cmd) {
+		synchronized (LOCK) {
+			db.execSQL(cmd);
+		}
+	}
 }

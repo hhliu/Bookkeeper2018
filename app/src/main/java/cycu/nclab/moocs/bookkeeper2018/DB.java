@@ -171,4 +171,10 @@ public class DB {
 		}
 	}
 
+	public void ExecSQL(String cmd) {
+		synchronized (LOCK) {
+			db.execSQL(cmd);
+		}
+	}
+
 }

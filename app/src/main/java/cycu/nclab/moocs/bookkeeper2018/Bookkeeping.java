@@ -41,7 +41,8 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
     /*用來顯示在手機畫面的時間格式*/
 
     Calendar c;
-    DB db = new DB(this);
+//    DB db = new DB(this);
+    DB_s db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
 
         Log.i(TAG, "enter onCreate()");
         uiInit();   // 把UI中跟 findViewById相關的整理在一起
+        db = DB_s.getInstance(this);
     }
 
     @Override
@@ -237,14 +239,10 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
                 DialogFragment timeFragment = TimePickerFragment.newInstance(c);
                 timeFragment.show(getSupportFragmentManager(), "timePicker");
                 break;
-            case R.id.spinner:
-                Log.d(TAG, "in spinner click");
-//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                        R.array.category, android.R.layout.simple_spinner_item);
-//// Specify the layout to use when the list of choices appears
-//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//// Apply the adapter to the spinner
-//                mCategory.setAdapter(adapter);
+            case R.id.button2:
+                Log.d(TAG, "save click");
+                saveItem();
+
                 break;
         }
     }
@@ -253,6 +251,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
 //    public void onDateSet(Calendar c) {
 //        mDate.setText(df_date.format(this.c.getTime()));
 //    }
+
 
 
     ContentValues oldOne;
@@ -279,11 +278,18 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
 
         // 3. 照片縮圖
 
-        if (oldOne == null || oldOne.equals(itemValue))
+        if (oldOne != null && oldOne.equals(itemValue))
             return false;
         else {
             oldOne = itemValue;
+            Log.d(TAG, "saving data to sqlite.");
+            db.openToWrite();
             db.insert(itemValue);
+//            String cmd = "INSERT INTO " + DB.TABLE + " ("
+//                            + DB.KEY_MONEY + ", " + DB.KEY_MEMO + ") "
+//                            + "VALUES" + " (1000, 'for mom''s birthday');";
+//            db.ExecSQL(cmd);
+            db.close();
         }
 
         return true;
