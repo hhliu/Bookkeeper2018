@@ -1,6 +1,8 @@
 package cycu.nclab.moocs.bookkeeper2018;
 
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,8 +18,13 @@ import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import cycu.nclab.moocs.bookkeeper2018.room.DB_r;
+import cycu.nclab.moocs.bookkeeper2018.room.MoneyEntity;
 
 public class Bookkeeping extends AppCompatActivity implements View.OnClickListener, OnDialogDoneListener {
 
@@ -155,21 +162,58 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
 
         String cmd =
                 "INSERT INTO " + DB.TABLE + " ("
-                        + DB.KEY_MONEY + ", " + DB.KEY_CATEGORY + ") "
-                        + "VALUES" + " (100, '食');";
+                        + DB.KEY_MONEY + ", " + DB.KEY_CATEGORY + ", " + DB.KEY_MEMO + ") "
+                        + "VALUES" + " (200, '食', 'for mother''s birthday');";
+
+        String mom = "mother's";
+        String cmd2 =
+                "SELECT * FROM " + DB.TABLE + " WHERE " + DB.KEY_MEMO
+                        + " GLOB '*" + mom + "*';";
+//        db.openToRead();
+//        Cursor cursor = db.RawQuery(cmd2);
+//        db.close();
+
+//        db.openToWrite();
+//        for(int i=0; i<100; ++i)
+////            db.RawQuery(cmd);
+//            db.execSQL(cmd);
+//        db.close();
+
+        final MoneyEntity ee = new MoneyEntity();
+//        ee.setId(6);
+        ee.setPrice(54321);
+        ee.setCategory("GG");
+        ee.setTimestamp(dbFormat.format(c.getTime()));
+//        DB_r db = DB_r.getDatabase(this);
+//        db.moneyDao().update(ee);
+//        myList = db.moneyDao().getDailyData(c);
+
+
+        List<MoneyEntity> dailyData = DB_r.getDailyData(this, c);
+
 
         Log.d(TAG, cmd);
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Insert Data
+//                DB_r.getDatabase(getApplicationContext()).moneyDao().insert(ee);
+//            }
+//        });
+
+//        cursor = DB_r.getDatabase(getApplicationContext()).moneyDao().getDailyData(c);
+//
+//        while (cursor.moveToNext())
+//        {
+//            Log.d(TAG, cursor.getString(cursor.getColumnIndex("money")));
+//        }
+
     }
 
-//    private AdapterView.setOnItemSelectedListener categoryItems = new AdapterView.OnItemClickListener() {
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            items = expenseItems[position].split(",");
-//            ArrayAdapter<String> adapter2 = new ArrayAdapter(getApplicationContext(), R.layout.simple_spinner_item, items);
-//            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            mItemAdd.setAdapter(adapter2);
-//        }
-//    };
+    Cursor cursor;
+    List<MoneyEntity> myList;
+//    List<MoneyEntity> myList = new ArrayList<MoneyEntity>();
+
 
     private AdapterView.OnItemSelectedListener categoryItems = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -258,7 +302,8 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
 
     private boolean saveItem() {
 
-        ContentValues itemValue = new ContentValues();
+//        ContentValues itemValue = new ContentValues();
+        MoneyEntity itemValue = new MoneyEntity();
 
         // 1. 金額
         String tmp = mPrice.getText().toString();
@@ -266,17 +311,23 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
             return false;
         else {
             // 這裡沒有做輸入檢查
-            itemValue.put(DB.KEY_MONEY, Double.valueOf(tmp));
+//            itemValue.put(DB.KEY_MONEY, Double.valueOf(tmp));
+            itemValue.setPrice(Double.valueOf(tmp));
         }
 
         // 2. 其他，沒填就是空白
-        itemValue.put(DB.KEY_CATEGORY, mCategory.getSelectedItem().toString());
-        itemValue.put(DB.KEY_ITEM, mItem.getText().toString().trim());
-        itemValue.put(DB.KEY_PAYSTYLE, mPayment.getSelectedItem().toString());
-        itemValue.put(DB.KEY_MEMO, mMemo.getText().toString());
-        itemValue.put(DB.KEY_DATE, dbFormat.format(c.getTime()));
+//        itemValue.put(DB.KEY_CATEGORY, mCategory.getSelectedItem().toString());
+//        itemValue.put(DB.KEY_ITEM, mItem.getText().toString().trim());
+//        itemValue.put(DB.KEY_PAYSTYLE, mPayment.getSelectedItem().toString());
+//        itemValue.put(DB.KEY_MEMO, mMemo.getText().toString());
+//        itemValue.put(DB.KEY_DATE, dbFormat.format(c.getTime()));
+        itemValue.setCategory(mCategory.getSelectedItem().toString());
+        itemValue.setItem(mItem.getText().toString().trim());
+        itemValue.setPayStyle(mPayment.getSelectedItem().toString());
+        itemValue.setMemo(mMemo.getText().toString());
+        itemValue.setTimestamp(dbFormat.format(c.getTime()));
 
-        // 3. 照片縮圖
+        // TODO 3. 照片縮圖
 
         if (oldOne != null && oldOne.equals(itemValue))
             return false;

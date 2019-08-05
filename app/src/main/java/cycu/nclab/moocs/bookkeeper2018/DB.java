@@ -33,7 +33,6 @@ public class DB {
 	private static Object LOCK;
 
 
-
 	// 建立資料庫欄位格式
 	private static final String createSQL = "CREATE TABLE IF NOT EXISTS "
 			+ TABLE + " ("
@@ -165,16 +164,17 @@ public class DB {
 		}
 	}
 
+	// 需要注意SQL命令中的單引號，需要自行處理
 	public Cursor RawQuery(String cmd) {
 		synchronized (LOCK) {
 			return db.rawQuery(cmd, null);
 		}
 	}
 
-	public void ExecSQL(String cmd) {
+	// 需要注意SQL命令中的單引號，需要自行處理
+	public void execSQL(String cmd) {
 		synchronized (LOCK) {
 			db.execSQL(cmd);
 		}
 	}
-
 }

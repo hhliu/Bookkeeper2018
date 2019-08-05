@@ -30,8 +30,7 @@ public class DB_s {
 	public static final String KEY_MEMO = "memo"; // 備註
 	public static final String KEY_THUMBNAIL = "thumbnail"; // 照片縮圖
 
-	private static Object LOCK;
-
+	private static Object LOCK = new Object();
 
 
 	// 建立資料庫欄位格式
@@ -175,9 +174,17 @@ public class DB_s {
 		}
 	}
 
+	// 需要注意SQL查詢命令中的單引號，需要自行處理
 	public Cursor RawQuery(String cmd) {
 		synchronized (LOCK) {
 			return db.rawQuery(cmd, null);
+		}
+	}
+
+	// 需要注意SQL命令中的單引號，需要自行處理
+	public void execSQL(String cmd) {
+		synchronized (LOCK) {
+			db.execSQL(cmd);
 		}
 	}
 
