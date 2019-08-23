@@ -12,4 +12,5 @@
     <color name="text_color_primary">#dd202020</color>
     <color name="transparent">#00000000</color>
     <color name="search_cost">#77211e</color>
+    <color name="searchCost">#77211E</color>
 </resources>

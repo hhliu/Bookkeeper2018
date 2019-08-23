@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/accountCells_template"
+    android:layout_width="fill_parent"
+    android:layout_height="74dp"
+    android:background="@drawable/ac_cellbackground">
+
+    <ImageView
+        android:id="@+id/categoryIcon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/image_bg"
+        android:contentDescription="@string/iv_desc"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/categoryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="end|center_vertical"
+        android:paddingStart="0dp"
+        android:paddingEnd="2dp"
+        android:textColor="@color/searchCost"
+        android:textStyle="italic"
+        tools:text="@string/tx_Category" />
+
+    <TextView
+        android:id="@+id/subCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/categoryIcon"
+        tools:text="@string/tx_subCategory" />
+
+    <TextView
+        android:id="@+id/itemCost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/subCategory"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="45dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/searchCost"
+        tools:text="@string/tx_itemCost" />
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/iv_desc"
+        android:src="@drawable/scrollarrow_r" />
+
+
+</RelativeLayout>

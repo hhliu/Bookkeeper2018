@@ -1,6 +1,7 @@
 package cycu.nclab.moocs.bookkeeper2018;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -286,6 +287,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
             case R.id.button2:
                 Log.d(TAG, "save click");
                 saveItem();
+                startActivity(new Intent(this, RecyclerViewActivity.class));
 
                 break;
         }
@@ -298,7 +300,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
 
 
 
-    ContentValues oldOne;
+    MoneyEntity oldOne;
 
     private boolean saveItem() {
 
@@ -329,18 +331,12 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
 
         // TODO 3. 照片縮圖
 
-        if (oldOne != null && oldOne.equals(itemValue))
-            return false;
-        else {
+        if (oldOne == null || !oldOne.equals(itemValue)) {
             oldOne = itemValue;
-            Log.d(TAG, "saving data to sqlite.");
-            db.openToWrite();
-            db.insert(itemValue);
-//            String cmd = "INSERT INTO " + DB.TABLE + " ("
-//                            + DB.KEY_MONEY + ", " + DB.KEY_MEMO + ") "
-//                            + "VALUES" + " (1000, 'for mom''s birthday');";
-//            db.ExecSQL(cmd);
-            db.close();
+            DB_r.insert(this, itemValue);
+        }
+        else {
+            return false;
         }
 
         return true;
