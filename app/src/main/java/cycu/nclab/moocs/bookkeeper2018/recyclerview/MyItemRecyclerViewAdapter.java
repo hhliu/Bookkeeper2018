@@ -1,5 +1,7 @@
 package cycu.nclab.moocs.bookkeeper2018.recyclerview;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +11,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import cycu.nclab.moocs.bookkeeper2018.recyclerview.AccountListFragment.OnListFragmentInteractionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cycu.nclab.moocs.bookkeeper2018.R;
+import cycu.nclab.moocs.bookkeeper2018.room.DB_r;
 import cycu.nclab.moocs.bookkeeper2018.room.MoneyEntity;
 
 /**
@@ -23,11 +27,26 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     final String TAG = this.getClass().getSimpleName();
     private final List<MoneyEntity> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final Context mListener;
 
-    public MyItemRecyclerViewAdapter(List<MoneyEntity> accounts, AccountListFragment.OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<MoneyEntity> accounts, Context listener) {
         mValues = accounts;
+        mCursor = null;
         mListener = listener;
+    }
+
+    private Cursor mCursor ;
+    public MyItemRecyclerViewAdapter(Cursor cursor, Context listener) {
+        mCursor = cursor;
+        mValues = null;
+        mListener = listener;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        mCursor.moveToPosition(position);
+        return mCursor.getInt(0);
     }
 
     @Override
@@ -40,10 +59,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mAccount = mValues.get(position);
-        holder.mCategory.setText(mValues.get(position).getCategory());
-        holder.mItem.setText(mValues.get(position).getItem());
-        holder.mPrice.setText(String.valueOf(mValues.get(position).getPrice()));
+        if (mValues != null) {
+            holder.mAccount = mValues.get(position);
+            holder.mCategory.setText(mValues.get(position).getCategory());
+            holder.mItem.setText(mValues.get(position).getItem());
+            holder.mPrice.setText(String.valueOf(mValues.get(position).getPrice()));
+        } else {
+            holder.mAccount = null;
+            String[] columnNames = mCursor.getColumnNames();
+            mCursor.moveToPosition(position);
+            holder.mCategory.setText(mCursor.getString(1));
+            holder.mItem.setText(mCursor.getString(2));
+            holder.mPrice.setText(String.valueOf(mCursor.getDouble(3)));
+        }
 
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -59,7 +87,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        if (mValues != null)
+            return mValues.size();
+        else
+            return mCursor.getCount();
     }
 
     @Override
@@ -68,7 +99,16 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onItemDismiss(int position) {
-        mValues.remove(position);
+        if (mValues != null) {
+            mValues.remove(position);
+        } else {
+            mCursor.moveToPosition(position);
+            int id = mCursor.getInt(0);
+            MoneyEntity mAccount = new MoneyEntity();
+            mAccount.setId(id);
+            DB_r.delete(mListener, mAccount);
+            mCursor = DB_r.getAll(mListener);
+        }
         notifyItemRemoved(position);
 
     }

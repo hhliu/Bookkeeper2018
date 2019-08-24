@@ -1,6 +1,7 @@
 package cycu.nclab.moocs.bookkeeper2018.room;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 
 import androidx.room.Database;
@@ -55,5 +56,16 @@ public abstract class DB_r extends RoomDatabase {
                 DB_r.getDatabase(c).moneyDao().insert(m);
             }
         });
+    }
+
+    public static Cursor getAll(Context c) {
+        return getDatabase(c).moneyDao().getAll();
+    }
+    public static void deleteFromID(Context c, int id) {
+        getDatabase(c).moneyDao().deleteById(id);
+    }
+
+    public static void getByID(Context c, int id) {
+        getDatabase(c).moneyDao().getById(id);
     }
 }

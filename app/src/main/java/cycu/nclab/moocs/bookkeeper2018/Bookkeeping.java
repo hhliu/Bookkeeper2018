@@ -161,58 +161,11 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
         mItemAdd.setAdapter(adapter2);
 
 
-        String cmd =
-                "INSERT INTO " + DB.TABLE + " ("
-                        + DB.KEY_MONEY + ", " + DB.KEY_CATEGORY + ", " + DB.KEY_MEMO + ") "
-                        + "VALUES" + " (200, '食', 'for mother''s birthday');";
-
-        String mom = "mother's";
-        String cmd2 =
-                "SELECT * FROM " + DB.TABLE + " WHERE " + DB.KEY_MEMO
-                        + " GLOB '*" + mom + "*';";
-//        db.openToRead();
-//        Cursor cursor = db.RawQuery(cmd2);
-//        db.close();
-
-//        db.openToWrite();
-//        for(int i=0; i<100; ++i)
-////            db.RawQuery(cmd);
-//            db.execSQL(cmd);
-//        db.close();
-
-        final MoneyEntity ee = new MoneyEntity();
-//        ee.setId(6);
-        ee.setPrice(54321);
-        ee.setCategory("GG");
-        ee.setTimestamp(dbFormat.format(c.getTime()));
-//        DB_r db = DB_r.getDatabase(this);
-//        db.moneyDao().update(ee);
-//        myList = db.moneyDao().getDailyData(c);
-
-
-        List<MoneyEntity> dailyData = DB_r.getDailyData(this, c);
-
-
-        Log.d(TAG, cmd);
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                // Insert Data
-//                DB_r.getDatabase(getApplicationContext()).moneyDao().insert(ee);
-//            }
-//        });
-
-//        cursor = DB_r.getDatabase(getApplicationContext()).moneyDao().getDailyData(c);
-//
-//        while (cursor.moveToNext())
-//        {
-//            Log.d(TAG, cursor.getString(cursor.getColumnIndex("money")));
-//        }
 
     }
 
-    Cursor cursor;
-    List<MoneyEntity> myList;
+//    Cursor cursor;
+//    List<MoneyEntity> myList;
 //    List<MoneyEntity> myList = new ArrayList<MoneyEntity>();
 
 

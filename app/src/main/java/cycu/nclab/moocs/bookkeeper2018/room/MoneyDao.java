@@ -38,7 +38,7 @@ public interface MoneyDao {
     @Query("Delete FROM moneycare WHERE id = :id")
     public void deleteById(long id);
 
-    @Query("SELECT * FROM moneycare")
+    @Query("SELECT * FROM moneycare ORDER BY myDate ASC")
     public Cursor getAll();
 
     // 取得一天的資料
